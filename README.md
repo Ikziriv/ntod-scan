@@ -6,7 +6,8 @@
 
 <p align="center">
   <strong>LAN discovery &amp; packet tools — local-first, zero telemetry, one binary.</strong><br/>
-  The capture-analysis layer that cloud pcap sites sell, running entirely on your own machine.
+  The capture-analysis layer that cloud pcap sites sell, running entirely on your own machine.<br/>
+  <em>Discover. Observe. Understand.</em>
 </p>
 
 <p align="center">
@@ -233,6 +234,7 @@ scripts/     gen-demo-pcap.py · capture-shots.mjs (README screenshots)
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, data flows, bounds |
 | [docs/SDD.md](docs/SDD.md) | Component design, data models, state |
 | [docs/TSD.md](docs/TSD.md) | API specs, wire protocols, build/test guide |
+| [BRAND.md](BRAND.md) | Brand identity — Obsidian Ember palette, mark, voice |
 | [DESIGN.md](DESIGN.md) | Design system (shared with ntok-scan) |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Conventions, tests, layout rules |
 
