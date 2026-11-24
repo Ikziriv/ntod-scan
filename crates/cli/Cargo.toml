@@ -1,0 +1,34 @@
+[package]
+name = "ntod-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+ai = ["ntod-api/ai"]
+# ARP cut engine — needs Npcap SDK to build.
+cut = ["dep:ntod-control", "ntod-control/live"]
+# External Kali tools (nmap/tcpdump) — local, WSL or SSH backend.
+tools = ["dep:ntod-tools", "ntod-api/tools"]
+# libpcap capture backend — on Windows, Npcap (installed once) captures
+# without Administrator and yields Ethernet frames instead of raw IP.
+pcap = ["ntod-capture/pcap-backend"]
+all = ["ai", "cut", "tools", "pcap"]
+
+[dependencies]
+anyhow.workspace = true
+axum.workspace = true
+clap.workspace = true
+ipnetwork.workspace = true
+ntod-api = { path = "../api" }
+ntod-analysis = { path = "../analysis" }
+ntod-capture = { path = "../capture" }
+ntod-control = { path = "../control", optional = true }
+ntod-core = { path = "../core" }
+ntod-proxy = { path = "../proxy" }
+ntod-tools = { path = "../tools", optional = true }
+serde_json.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "net", "signal", "sync"] }

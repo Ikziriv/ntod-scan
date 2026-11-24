@@ -1,0 +1,12 @@
+# LF for all text files — cargo/rustfmt/CI expect LF; Windows editors handle it.
+* text=auto eol=lf
+
+# cmd.exe needs CRLF for labels/goto.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Generated binary assets — never convert.
+*.png binary
+*.pcap binary
+*.pcapng binary

@@ -1,0 +1,13 @@
+[package]
+name = "ntod-proxy"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["io-util", "net", "rt-multi-thread", "macros", "sync", "time"] }

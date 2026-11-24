@@ -1,0 +1,15 @@
+[package]
+name = "ntod-tools"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+ntod-capture = { path = "../capture" }
+ntod-core = { path = "../core" }
+quick-xml = { version = "0.37", features = ["serialize"] }
+serde.workspace = true
+thiserror.workspace = true

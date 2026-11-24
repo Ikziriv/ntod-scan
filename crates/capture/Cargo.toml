@@ -1,0 +1,31 @@
+[package]
+name = "ntod-capture"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+# libpcap backend — cross-platform. On Windows, Npcap's wpcap.dll is
+# loaded at runtime (no SDK needed to build). Pinned to pcap main:
+# pcap 2.x drags in windows-sys 0.36, whose import lib binds std's
+# WaitOnAddress/WakeByAddress* to vertdll.dll and crashes on the first
+# thread park (rust-lang/rust#165915). Drop the pin once pcap 3.x is
+# released.
+pcap-backend = ["dep:pcap"]
+
+[dependencies]
+etherparse.workspace = true
+ntod-core = { path = "../core" }
+serde.workspace = true
+thiserror.workspace = true
+pcap = { git = "https://github.com/rust-pcap/pcap", rev = "f3476f62e45740e84595754386612f4e354d152a", optional = true }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.60", features = [
+    "Win32_Foundation",
+    "Win32_Networking_WinSock",
+    "Win32_System_IO",
+] }

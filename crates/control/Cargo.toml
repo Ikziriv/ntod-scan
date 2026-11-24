@@ -1,0 +1,17 @@
+[package]
+name = "ntod-control"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+# ARP spoof engine — needs pnet, which needs Npcap SDK to build on Windows.
+live = ["dep:pnet", "dep:ntod-core"]
+
+[dependencies]
+ntod-core = { path = "../core", optional = true }
+thiserror.workspace = true
+pnet = { version = "0.35", optional = true }

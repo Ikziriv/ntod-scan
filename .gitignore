@@ -1,0 +1,41 @@
+# Rust
+target/
+*.rs.bk
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# Capture output produced locally by capture/analysis/tools
+*.pcap
+*.pcapng
+*.cap
+!examples/demo.pcap
+
+# Local history store (default is ~/.ntod-scan; ignore if pointed into the repo)
+.ntod-scan/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+nul
+
+# Editor
+.idea/
+*.swp
+*.swo
+
+# Local agent dirs — junction shims point at .ncc/skills/, instincts are local
+.agents/
+.devin/
+.claude/skills
+
+# NCC memory vault (unreviewed agent context, never committed)
+.ncc/memory/
+
+# Islands frontend (npm build output is generated, not committed)
+node_modules/
+apps/web/islands/
+.shots/

@@ -1,0 +1,18 @@
+[package]
+name = "ntod-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+dns-lookup = "2"
+ipnetwork.workspace = true
+ping = "0.7"
+serde.workspace = true
+thiserror.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.60", features = ["Win32_NetworkManagement_IpHelper"] }

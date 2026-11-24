@@ -1,0 +1,535 @@
+/* NTOD — app-specific deltas on top of the vendored ntok system.
+ * app.css is a verbatim copy; keep ntod-only rules here so re-syncs stay clean.
+ *
+ * NTOD is dark-only "Obsidian Ember": data-view is pinned to "night"
+ * (boot.js + layout.rs), so every override below scopes to that view. */
+
+/* Ember accent ramp — same family as the gold ribbon mark; semantic
+ * ok/warn/err stay untouched. Overrides the vendored night tokens. */
+[data-view="night"] {
+  --bg:            #05080F;
+  --accent:        #F59E4C;
+  --accent-mid:    #E8892F;
+  --accent-bright: #FFB86B;
+  --accent-deep:   #C97A22;
+  --accent-sky:    #FFC98A;
+  --accent-soft:   rgba(245, 158, 76, .13);
+  --accent-line:   rgba(245, 158, 76, .32);
+  --on-accent:     #180C02;
+  --obs-line:      rgba(245, 185, 115, .16);
+}
+
+/* Ambient horizon — a faint ember/steel bloom behind the content,
+ * no fill gradients, honors reduced-contrast surfaces. */
+[data-view="night"] body {
+  background:
+    radial-gradient(60% 420px at 50% -140px, rgba(245, 158, 76, .09), transparent 72%),
+    radial-gradient(48% 340px at 50% -40px, rgba(80, 130, 220, .07), transparent 72%),
+    var(--bg);
+}
+
+/* Brand: gold ribbon-N mark on an obsidian chip with a warm ring. */
+.mark {
+  width: 40px;
+  height: 34px;
+  padding: 4px;
+  border-radius: var(--r-md);
+  background: var(--obs);
+  border: 1px solid rgba(245, 185, 115, .22);
+}
+.mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* ---- Premium chrome ------------------------------------------------ */
+
+/* Floating glass top bar: deeper transparency, larger radius, soft
+ * under-glow. The segmented nav centers itself like a floating pill. */
+[data-view="night"] .top {
+  background: color-mix(in srgb, var(--surface) 52%, transparent);
+  border-color: var(--line-soft);
+  border-radius: var(--r-lg);
+  position: relative;
+}
+[data-view="night"] .top .nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  background: color-mix(in srgb, var(--ceramic) 80%, transparent);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .6);
+}
+/* Back to normal flow when the bar would crowd the centered nav. */
+@media (max-width: 1180px) {
+  [data-view="night"] .top .nav { position: static; transform: none; }
+}
+
+/* Primary action: ember fill with a soft halo + inner edge-light. */
+[data-view="night"] .btn:not(.ghost):not(.danger) {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 200, .28),
+    0 10px 26px -12px rgba(245, 158, 76, .55);
+}
+[data-view="night"] .btn:not(.ghost):not(.danger):hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 200, .28),
+    0 12px 30px -12px rgba(245, 158, 76, .7);
+}
+
+/* Panels get a hairline edge-light + soft ambient lift — the framed
+ * "product stage" from the reference, translated to working surfaces. */
+[data-view="night"] .panel,
+[data-view="night"] .control-panel,
+[data-view="night"] .tile-ceramic,
+[data-view="night"] .telemetry-island {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .035),
+    0 18px 44px -28px rgba(0, 0, 0, .7);
+}
+
+/* Eyebrow chip — the reference's announcement pill, repurposed as a
+ * live section marker above every page title. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  margin-bottom: 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--accent-bright);
+  font: 600 10.5px var(--mono);
+  letter-spacing: .09em;
+}
+.eyebrow::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* Page head breathes like a hero — a touch more air around the title. */
+.page-head { margin-bottom: 26px; }
+
+/* Slim dark scrollbars inside bounded panels */
+[data-view="night"] .panel.flush::-webkit-scrollbar { width: 10px; height: 10px; }
+[data-view="night"] .panel.flush::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border: 3px solid var(--surface);
+  border-radius: 999px;
+}
+[data-view="night"] .panel.flush::-webkit-scrollbar-track { background: transparent; }
+
+/* Skip-to-content accessibility link */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font: 600 12.5px var(--sans);
+  box-shadow: var(--shadow-float);
+  transition: top .16s var(--ease);
+}
+.skip-link:focus { top: 14px; text-decoration: none; }
+
+/* Segmented nav active state */
+.nav .navbtn[aria-current="page"] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.nav .navbtn { white-space: nowrap; }
+
+/* Header spacing refinement so 6 nav items fit cleanly on desktop */
+.top { padding: 8px 18px; gap: 10px; }
+.nav { margin-left: 4px; gap: 2px; }
+.nav a, .nav .navbtn { padding: 7px 11px; font-size: 12.5px; }
+
+/* Neutralized telemetry waveform fill (honors NTOD palette) */
+.telemetry-island .wave .fill {
+  fill: color-mix(in srgb, var(--accent-sky) 14%, transparent);
+}
+.telemetry-island { margin: 0 0 18px; }
+
+/* Control panels (Tools backend & Devices monitor) — live on normal
+ * ceramic/surface tokens instead of dark obsidian for clean contrast */
+.control-panel {
+  margin-bottom: 18px;
+  padding: 18px 20px;
+}
+.control-panel .sec-head { margin-bottom: 12px; }
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 12px 14px;
+  align-items: end;
+}
+.control-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.control-field .toolbar-label {
+  margin: 0;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.control-field .txt {
+  min-width: 0;
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 12.5px;
+}
+
+/* Status line under the results panel */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  min-height: 26px;
+}
+
+/* Stop-slot inside page-actions — zero layout jump */
+#stop-slot:empty { display: none; }
+
+/* Button in-flight loading state (htmx-request) */
+.btn.htmx-request,
+.btn[disabled] {
+  opacity: .68;
+  pointer-events: none;
+  cursor: wait;
+}
+.btn.htmx-request::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: ntok-spin .65s linear infinite;
+}
+
+/* Fresh-row flash as scan/sniff results stream in */
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(-3px); }
+}
+tbody tr.flash td { animation: row-in .25s var(--ease); }
+tbody tr.flash td:first-child { color: var(--accent); font-weight: 600; }
+
+/* Scrollable bounded table panels with sticky headers */
+.panel.flush {
+  padding: 0;
+  max-height: min(62vh, 620px);
+  overflow: auto;
+  position: relative;
+}
+.panel.flush thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--surface);
+  box-shadow: inset 0 -1px 0 var(--line-soft);
+}
+.panel.flush .empty {
+  margin: 14px;
+}
+td.idx { color: var(--faint); width: 1%; white-space: nowrap; }
+
+/* Click-to-copy subtle affordance */
+td[data-copy] {
+  cursor: pointer;
+  transition: color .14s var(--ease);
+}
+td[data-copy]:hover {
+  color: var(--accent);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+/* Empty state & PCAP Dropzone */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 36px 24px;
+}
+.empty-ic {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-md);
+  background: var(--ceramic);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  margin-bottom: 2px;
+}
+.empty-ic .ic { width: 18px; height: 18px; margin: 0; color: var(--muted); }
+.empty-title { font: 600 13.5px var(--sans); color: var(--ink); }
+.empty-sub { font: 400 12.5px var(--sans); color: var(--muted); max-width: 44ch; }
+
+.dropzone {
+  cursor: pointer;
+  transition: border-color .16s var(--ease), background .16s var(--ease), transform .16s var(--ease);
+}
+.dropzone:hover,
+.dropzone:focus-visible,
+.dropzone.drag-over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.dropzone.drag-over { transform: scale(0.995); }
+
+/* Report workspace — cleanly separates obsidian hero from light/dark panels */
+#report-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.report-hero { margin: 0; }
+.report-hero .stats { margin-top: 14px; }
+.report-hero .stat {
+  background: rgba(255, 255, 255, .04);
+  border-color: var(--obs-line);
+  padding: 14px 16px;
+}
+.report-hero .stat .v { color: #FFFFFF; font-size: 24px; }
+.report-hero .stat .k { color: var(--obs-muted); font-size: 11.5px; }
+.report-hero .stat.err .v { color: var(--err); }
+.report-hero .stat.ok .v { color: var(--ok); }
+.report-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--obs-line);
+}
+.report-actions .chip-link {
+  background: rgba(255, 255, 255, .06);
+  border-color: var(--obs-line);
+  color: var(--obs-fg);
+  font: 600 11.5px var(--mono);
+  padding: 6px 13px;
+}
+.report-actions .chip-link:hover {
+  background: var(--accent-sky);
+  border-color: var(--accent-sky);
+  color: #0B1220;
+}
+
+/* Findings grid */
+#findings, #ai-out, #mon-feed, #alert-feed {
+  display: grid;
+  gap: 8px;
+}
+#mon-feed:not(:empty), #alert-feed:not(:empty) { margin-top: 12px; }
+.finding {
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 12px 14px;
+  background: var(--surface);
+  transition: border-color .15s var(--ease), background .15s var(--ease), transform .15s var(--ease);
+}
+.finding h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.finding-drill {
+  margin-left: auto;
+  font: 600 11px var(--mono);
+  color: var(--faint);
+  transition: color .15s var(--ease), transform .15s var(--ease);
+}
+.finding[data-fidx] { cursor: pointer; }
+.finding[data-fidx]:hover,
+.finding[data-fidx]:focus-visible {
+  border-color: var(--accent);
+  background: var(--hover);
+}
+.finding[data-fidx]:hover .finding-drill {
+  color: var(--accent);
+  transform: translateX(2px);
+}
+.finding.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.sev {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.sev-alert { background: var(--err-bg); color: var(--err); border: 1px solid var(--err-line); }
+.sev-warn  { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn-line); }
+.sev-info  { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-line); }
+.finding .fd { margin: 0; font-size: 12.5px; color: var(--fg); line-height: 1.5; }
+.finding .ev { margin: 6px 0 0; font-size: 11px; color: var(--muted); font-family: var(--mono); overflow-wrap: anywhere; }
+
+/* Report filter banner */
+.report-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  font: 500 12px var(--mono);
+  color: var(--accent);
+}
+.report-filter-bar[hidden] { display: none; }
+
+/* Tab count pill inside segmented report tabs */
+.tab-cnt {
+  display: inline-block;
+  margin-left: 5px;
+  font: 600 10px var(--mono);
+  opacity: .7;
+}
+
+/* Protocol badge & masked secrets */
+.proto-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: var(--ceramic);
+  border: 1px solid var(--line-soft);
+  font: 600 10.5px var(--mono);
+  color: var(--ink);
+  text-transform: uppercase;
+}
+/* Sniff table: per-protocol accents */
+.proto-badge.p-tcp { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent); }
+.proto-badge.p-udp { background: var(--ok-bg); border-color: var(--ok-line); color: var(--ok); }
+.proto-badge.p-icmp,
+.proto-badge.p-icmp6 { background: var(--warn-bg); border-color: var(--warn-line); color: var(--warn); }
+
+/* Capture-source fields lock while a sniff runs */
+.control-field .txt:disabled { opacity: .6; cursor: not-allowed; }
+.secret-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.secret-val { font-family: var(--mono); letter-spacing: .04em; }
+
+/* Presence dot — devices view */
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); opacity: .4; }
+.dot.on { background: var(--ok, #3fb96f); opacity: 1; }
+
+/* Tool probe legend */
+#tool-probe { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+
+/* Toast notification */
+.ntod-toast {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 60;
+  padding: 9px 15px;
+  border-radius: var(--r-pill);
+  background: var(--obs);
+  color: var(--obs-fg);
+  border: 1px solid var(--obs-line);
+  font: 600 12px var(--mono);
+  box-shadow: var(--shadow-float);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
+}
+.ntod-toast.show { opacity: 1; transform: translateY(0); }
+
+/* Mobile bottom dock navigation (hidden on desktop) */
+.mobile-nav { display: none; }
+
+/* ---------- Responsive: Tablet & Mobile ---------- */
+@media (max-width: 960px) {
+  .brand-sub { display: none; }
+  .sys-pill { display: inline-flex !important; padding: 5px 10px; gap: 6px; }
+  .sys-pill .sys-k { display: none; }
+}
+
+@media (max-width: 768px) {
+  /* Keep top bar a single clean row; move 6-tab navigation to bottom dock */
+  .top .nav { display: none; }
+  .top { padding: 8px 14px; }
+  .btn { min-height: 44px; padding: 10px 18px; }
+  .page-head { gap: 12px; margin-bottom: 16px; }
+  .page-actions { width: 100%; }
+  .page-actions .btn,
+  .page-actions .upload-form,
+  .page-actions .upload-form .btn { flex: 1 1 auto; }
+
+  main { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+  .foot { padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+  .ntod-toast { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); right: 14px; }
+
+  .control-grid { grid-template-columns: 1fr; }
+  .report-hero .stats { grid-template-columns: repeat(2, 1fr); }
+  .report-actions .chip-link { min-height: 38px; display: inline-flex; align-items: center; }
+
+  /* Fixed bottom tab bar */
+  .mobile-nav {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 35;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+    background: var(--top-bg);
+    -webkit-backdrop-filter: var(--top-blur);
+    backdrop-filter: var(--top-blur);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -8px 24px -12px rgba(11, 18, 32, .22);
+  }
+  .mobile-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 48px;
+    border-radius: var(--r-md);
+    color: var(--muted);
+    font: 600 10px var(--sans);
+    text-decoration: none;
+    transition: color .15s var(--ease), background .15s var(--ease);
+  }
+  .mobile-nav a .ic { width: 17px; height: 17px; vertical-align: 0; }
+  .mobile-nav a[aria-current="page"] {
+    color: var(--on-accent);
+    background: var(--accent);
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 26px; }
+  .telemetry-island { padding: 16px 14px; }
+  .control-panel { padding: 14px; }
+  .panel.flush { max-height: 56vh; }
+}
